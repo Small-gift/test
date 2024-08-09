@@ -3,46 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>点击小东西发现彩蛋</title>
+    <title>点击播放随机音乐</title>
     <style>
         body {
             font-family: '微软雅黑', sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        #click-counter {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        #secretThing {
+        #music-button {
             cursor: pointer;
-            color: #4a90e2;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #4a90e2;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-        #secretThing:hover {
-            text-decoration: underline;
+        #music-button:hover {
+            background-color: #357ae8;
         }
     </style>
 </head>
 
 <body>
-    <h1><span id="secretThing">小东西</span></h1>
-    <p id="click-counter">点击“小东西”5次以发现彩蛋！</p>
-    <script>
-        var clickCount = 0; // 用于记录点击次数
-        var secretThing = document.getElementById('secretThing'); // 获取id为secretThing的元素
+    <button id="music-button">点击这里播放音乐 🎵</button>
+    <audio id="audioPlayer" style="display:none;">
+        <!-- 音乐文件将在这里通过JavaScript动态添加 -->
+    </audio>
 
-        secretThing.addEventListener('click', function() {
+    <script>
+        var clickCount = 0; // 点击次数
+        var audioPlayer = document.getElementById('audioPlayer'); // 音频播放器元素
+        var musicFiles = [  // 音乐文件路径数组
+            './Music/Nyan Cat.mp3',
+            './Music/See You Again.mp3'
+            // 根据需要添加更多音乐文件路径
+        ];
+
+        document.getElementById('music-button').addEventListener('click', function() {
             clickCount++; // 增加点击次数
-            var clickCounterElement = document.getElementById('click-counter');
-            if (clickCount >= 5) {
-                // 当点击5次时，显示彩蛋
-                clickCounterElement.innerHTML = "彩蛋被发现了！🎉";
-                // 弹出彩蛋消息
-                alert('恭喜你发现了彩蛋！');
+            if (clickCount === 1) {
+                // 播放随机音乐
+                var randomIndex = Math.floor(Math.random() * musicFiles.length);
+                audioPlayer.src = musicFiles[randomIndex]; // 设置音乐文件路径
+                audioPlayer.play(); // 播放音乐
                 clickCount = 0; // 重置点击次数
-            } else {
-                // 更新点击次数显示
-                clickCounterElement.innerHTML = "点击次数：" + clickCount + "/5";
             }
         });
     </script>
